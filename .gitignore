@@ -11,5 +11,5 @@
 *.d
 
 #-- Build
-#bin/
-#obj/
+bin/
+obj/

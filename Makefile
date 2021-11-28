@@ -1,4 +1,4 @@
-# Teensy 3.1 or 3.2
+# Teensy 3.2
 MCU = MK20DX256
 LOWER_MCU = mk20dx256
 CPUARCH = cortex-m4
@@ -9,8 +9,8 @@ TARGET = main
 
 #  configurable options  + + +
 #************************************************************************
-#OPTIONS = -DF_CPU=144000000
-OPTIONS = -DF_CPU=120000000
+#OPTIONS = -DF_CPU=144000000  # CK6/3
+OPTIONS = -DF_CPU=120000000  # CK7/4 CK1
 
 # usb_desc.h : USB_HID  USB_KEYBOARDONLY 
 OPTIONS += -DUSB_HID -DLAYOUT_US_ENGLISH -DUSING_MAKEFILE
@@ -33,14 +33,14 @@ endif
 # source subdirs 3
 SRCDIR = t3
 SRCLIB = lib
-SRCTIM = tim
+SRCKC = kc
 
 # output dirs
 OBJDIR = obj
 BINDIR = bin
 PROJECT = main
 
-INC = -I$(SRCDIR) -I$(SRCLIB) -I$(SRCTIM)
+INC = -I$(SRCDIR) -I$(SRCLIB) -I$(SRCKC)
 MCU_LD = $(SRCDIR)/$(LOWER_MCU).ld
 
 
@@ -71,8 +71,8 @@ OBJCOPY = @$(COMPILERPATH)/arm-none-eabi-objcopy
 SIZE = $(COMPILERPATH)/arm-none-eabi-size
 
 #  auto create lists of sources and objects
-C_FILES := $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCLIB)/*.c) $(wildcard $(SRCTIM)/*.c)
-CPP_FILES := $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCLIB)/*.cpp) $(wildcard $(SRCTIM)/*.cpp)
+C_FILES := $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCLIB)/*.c) $(wildcard $(SRCKC)/*.c)
+CPP_FILES := $(wildcard $(SRCDIR)/*.cpp) $(wildcard $(SRCLIB)/*.cpp) $(wildcard $(SRCKC)/*.cpp)
 OBJ_FILES := $(addprefix $(OBJDIR)/,$(notdir $(CPP_FILES:.cpp=.o))) $(addprefix $(OBJDIR)/,$(notdir $(C_FILES:.c=.o)))
 
 
@@ -116,10 +116,10 @@ endif
 #phony:
 #	echo $(COMPILERPATH)
 
-tim: $(BINDIR)/$(PROJECT).hex
+kc: $(BINDIR)/$(PROJECT).hex
 
 # C compilation
-$(OBJDIR)/%.o : $(SRCTIM)/%.c
+$(OBJDIR)/%.o : $(SRCKC)/%.c
 	@echo $(E) "$(CC_CLR)  CC\e[m" $<
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
 $(OBJDIR)/%.o : $(SRCLIB)/%.c
@@ -130,7 +130,7 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
 
 # C++ compilation
-$(OBJDIR)/%.o : $(SRCTIM)/%.cpp
+$(OBJDIR)/%.o : $(SRCKC)/%.cpp
 	@echo $(E) "$(CXX_CLR) CXX\e[m" $<
 	$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@ $(COLOR_OUTPUT)
 $(OBJDIR)/%.o : $(SRCLIB)/%.cpp
