@@ -4,19 +4,6 @@
 
 
 //  Grid  | |
-inline void GridLineP(Ada4_ST7735* d, KC_Params& par, int m, uint16_t c, const char* s)
-{
-	int h = m * 60 / t1min(par);  // m min time
-	int x = W-1 - h;
-	if (x > 0)  d->drawFastVLine(x, 0, H/2, c);
-	else  return;
-	x -= 6;
-	if (x < 12 || x >= W-12)  return;
-	if (x < 0)  x = 0;
-	d->setCursor(x, 0);
-	d->setColor(c);
-	d->print(s);
-}
 inline void GridLineT(Ada4_ST7735* d, KC_Params& par, int m, uint16_t c, const char* s)
 {
 	int h = m * 60000 / tTgraph(par);  // m min time
@@ -58,66 +45,6 @@ void Gui::DrawGraph()
 	int xc = par.xCur;
 	bool cursor = xc < W;
 	int i,ii, x,y0, v,y,h;  uint16_t c;
-
-
-	// press/1min  ------------------------
-
-	//  grid
-	if (par.time1min)
-	{
-		GridLineP(d,par, 10, RGB(12, 12, 12),"10");  // m
-		GridLineP(d,par, 30, RGB(12, 12, 12),"30");
-		GridLineP(d,par, 60, RGB(16, 16, 16),"1h");  // h
-		GridLineP(d,par,120, RGB(16, 16, 16),"2h");
-		GridLineP(d,par,240, RGB(16, 16, 16),"4h");
-		GridLineP(d,par,480, RGB(16, 16, 16),"8h");
-	}
-
-	//  graph  Press/1min
-	for (i=0; i <= W-1; ++i)
-	{
-		getPv(i);
-		if (v > 0)
-		{
-			ClrPress(v);  c = d->getClr();
-
-			h = 2 * v / 4;  // max
-			if (h > H/2)  h = H/2;
-
-			y = H/2 - h;
-			if (y < 0)  y = 0;
-
-			if (y+h < H)
-				d->drawFastVLine(i, y, h, c);
-
-			if (i == xc)
-				d->drawPixel(i, y, RGB(31,31,31));  //.
-	}	}
-
-	//  legend
-	x = 0;  y0 = 9;
-	d->setClr(20, 20, 25);
-	d->setCursor(x, y0);
-	d->println("Press/min");
-	d->moveCursor(0,2);
-
-	if (cursor)
-	{
-		getPv(xc);
-		ClrPress(v);
-		sprintf(a,"%d", v);  d->println(a);
-
-		d->moveCursor(0,1);
-		PrintInterval(t1min(par)*1000*(W-1-xc));  d->println("");
-	}
-	//  max
-	v = H/2 * 4 / 2;
-	d->setClr(16, 16, 20);
-	d->moveCursor(0,2);
-	if (!cursor)
-	{	d->print("max ");
-		sprintf(a,"%d", v);  d->println(a);
-	}
 
 
 #ifdef TEMP1

@@ -29,7 +29,7 @@ struct Gui
 	void DrawClock(), DrawGraph(), DrawHelp(), DrawInfo();  // info
 
 	//  draw util
-	void DrawPressed(), DrawLayout(bool edit), Chk_y1();
+	void Chk_y1();
 	void DrawSeq(int8_t seq, int8_t q), DrawOperInfo();
 	void DrawDispCur(int i, int16_t y), DrawClockCur(int i, int16_t y);
 	//  util
@@ -79,9 +79,6 @@ struct Gui
 	//  help
 	int8_t hpage = 0;
 	const static int8_t HAll = 11;
-	#ifdef LED
-	int8_t led = 0;
-	#endif
 
 
 	//  keys pressed, some +-1  _k_

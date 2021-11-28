@@ -36,13 +36,6 @@ void Gui::Init(Ada4_ST7735* tft)
 	oldti=0;  oldti_kr=0;
 	iRam = 0;  hpage = 0;
 
-#ifdef DEMOS
-	demos.Init(d);
-#endif
-#ifdef GAME
-	game.Init(this);
-#endif
-
 	ym2Lay=0; ym2Scan=0; ym2Keyb=0; ym2Mouse=0; pressGui=0;
 	ym2Disp=0; pgDisp=0;
 
@@ -89,13 +82,8 @@ void Gui::SetScreen(int8_t s)
 
 	case ST_Displ: ym = M_Display;  break;
 	case ST_Help:  ym = M_Help;  break;
-#ifdef DEMOS
-	case ST_Demos: ym = M_Demos;  break;
 	}
-	if (s >= ST_Demos2){  mlevel = 2;  ym = M_Demos;  ym1[ym] = s - ST_Demos2;  }  else
-#else
-	}
-#endif  // level2
+	// level2
 	if (s >= ST_Setup2 && s < ST_Setup2Max){  mlevel = 2;  ym = M_Setup;    ym1[ym] = s - ST_Setup2;  }  else
 	if (s >= ST_Test2 && s < ST_Test2Max){    mlevel = 2;  ym = M_Testing;  ym1[ym] = s - ST_Test2;  }  else
 	if (s >= ST_Info2 && s < ST_Info2Max){    mlevel = 2;  ym = M_Info;     ym1[ym] = s - ST_Info2;  }  else
@@ -116,13 +104,8 @@ const char* Gui::StrScreen(int8_t s)
 
 	case ST_Displ:  return strMain[M_Display];
 	case ST_Help:   return strMain[M_Help];
-#ifdef DEMOS
-	case ST_Demos:  return strMain[M_Demos];
 	}
-	if (s >= ST_Demos2)  return strDemo[s - ST_Demos2];
-#else
-	}
-#endif  // level2
+	// level2
 	if (s >= ST_Setup2 && s < ST_Setup2Max)	return strSetup[s - ST_Setup2];  else
 	if (s >= ST_Test2 && s < ST_Test2Max)	return strTest[s - ST_Test2];  else
 	if (s >= ST_Info2 && s < ST_Info2Max)	return strInfo[s - ST_Info2];  else

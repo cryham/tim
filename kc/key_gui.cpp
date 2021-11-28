@@ -72,18 +72,6 @@ void Gui::KeyPress()
 			(kCtrl ? Cl_Graphs : kSh ? Cl_StatsExt : pgClock));
 	}
 
-	//  Game  ------
-	#ifdef GAME
-	if (ym == M_Game && mlevel == 1)
-	{
-		if (game.KeyPress(mlevel))
-		{	// goto help
-			ym = M_Help;  mlevel = 1;  hpage = HAll-2;
-		}
-		return;
-	}
-	#endif
-
 	int sp = (kCtrl ? 10 : kSh ? 1 : 2);  // mul
 
 
@@ -158,14 +146,4 @@ void Gui::KeyPress()
 		if (kUp){  ym1[ym] += kUp;  Chk_y1();  }
 		return;
 	}
-
-
-	//  Demos
-	#ifdef DEMOS
-	if (ym == M_Demos && mlevel == 2)
-	{
-		demos.KeyPress((EDemo)ym1[ym], this);
-		return;
-	}
-	#endif
 }

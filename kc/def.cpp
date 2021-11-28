@@ -38,12 +38,6 @@ const char* strMain[M_All] =
 	"Mapping", "Sequences",
 	"Testing", "Setup", "Info",
 	"Display", "Clock", "Help",
-#ifdef GAME
-	"Game",
-#endif
-#ifdef DEMOS
-	"Demos",
-#endif
 };
 
 //  Testing kbd
@@ -71,27 +65,6 @@ const char* strClock[Cl_All] =
 };
 
 
-//  Demos
-#ifdef DEMOS
-const char* strDemo[D_All] =
-{
-#ifdef DEMOS_PLASMA
-	"Plasma",
-#endif
-	"Wave", "Fire",
-#ifdef DEMOS_3D
-	"Hedrons",
-#endif
-	"CK Logo",
-#ifdef DEMOS_OLD_PAR
-	"Space", "Balls", "Fountain",
-#endif
-	"Rain",
-	"N-gons", "Fonts",
-};
-#endif
-
-
 //  sub pages
 const uint8_t YM1[M_All] =
 {
@@ -103,10 +76,4 @@ const uint8_t YM1[M_All] =
 	1,  // M_Display
 	1,  // M_Clock  Cl_All
 	1,  // M_Help
-#ifdef GAME
-	1,  // M_Game
-#endif
-#ifdef DEMOS
-	D_All,  // M_Demos
-#endif
 };
