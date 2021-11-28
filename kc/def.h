@@ -3,33 +3,15 @@
 
 //----  Setup  ----	  use:  ram B      flash
 //  optional features, comment out to disable
-#define DEMOS			//  28        9%
-#define DEMOS_PLASMA	//  36        11%
-#define DEMOS_3D		//  44        15%
-//#define DEMOS_OLD_PAR	//  280 <1%   16%  min
-					// all  6680 10%  17%  max 41k
-#define GAME		// game 1.5k 2%   8%  22.5k
 #define GRAPHS          //  322 <1%
 
-
-//   Keyboard  ----
-//  define just one type, for matrix.h
-//#define CK1  // 8x6
 #define CK6  // 18x8  new CK6/3
-//#define CK7  // 18x8  old CK7/4/2
-//#define CK8  // 20x8  new
 
+//  led light
+#define LED  12
+//  temperature 'C sensor DS18B20
+#define TEMP1  31	//  44   9%  24k
 //-----------------
-//  extra keyboard features, pins
-#ifdef CK6
-    //  led light
-	#define LED  12
-	//  temperature 'C sensor DS18B20
-	#define TEMP1  31	//  44   9%  24k
-#endif
-#ifdef CK7
-	#define TEMP1  14
-#endif
 
 
 #define W 160  //  display dim
@@ -49,34 +31,10 @@ enum EMainMenu  //  main menu entries, level0
 	M_Mapping, M_Sequences,
 	M_Testing, M_Setup, M_Info,
 	M_Display, M_Clock, M_Help,
-	#ifdef GAME
-		M_Game,
-	#endif
-	#ifdef DEMOS
-		M_Demos,
-	#endif
 	M_All,  M_Next = M_Display  // 2nd column, -1 off
 };
 
-#ifdef DEMOS
-enum EDemo  //  Demos, level1
-{
-	#ifdef DEMOS_PLASMA
-		D_Plasma,
-	#endif
-		D_Wave, D_Fire,
-	#ifdef DEMOS_3D
-		D_Hedrons,
-	#endif
-		D_CK_Logo,
-	#ifdef DEMOS_OLD_PAR
-		D_Space, D_Balls, D_Fountain,
-	#endif
-	D_Rain, D_Ngons, D_Fonts,
-	D_All,  D_Next = D_CK_Logo
-};
-extern const char *strDemo[D_All];
-#endif
+
 
 //  menus  --
 enum ETesting  //  Testing kbd, level1
