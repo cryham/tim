@@ -39,8 +39,6 @@ void Gui::DrawDisplay()
 		{
 		case 0:
 			sprintf(a,"Brightness: %d %%", par.brightness);  h = 2;  break;
-		case 1:
-			sprintf(a,"Off bright: %d %%", par.brightOff);  break;
 		case 2:
 			sprintf(a,"Start with: %s", StrScreen(par.startScreen));  break;
 		}
@@ -58,8 +56,6 @@ void Gui::DrawDisplay()
 			sprintf(a,"Key delay:  %d ms", par.krDelay*5);  h = 2;  break;
 		case 1:
 			sprintf(a,"Key repeat: %d ms", par.krRepeat*5);  break;
-		case 2:
-			sprintf(a,"Quick keys F1-12: %s", par.quickKeys?"on":"off");  break;
 		}
 		d->print(a);  y += h+8;
 	}	break;
@@ -69,14 +65,14 @@ void Gui::DrawDisplay()
 	{
 		DrawDispCur(i, y);
 		int8_t h = 4;
-		switch(i)
+		/*switch(i)
 		{
 		case 0:
-			sprintf(a,"Time for 1min:  %dm%02ds", t1min(par)/60, t1min(par)%60);  break;
+			// asprintf(a,"Time for 1min:  %dm%02ds", t1min(par)/60, t1min(par)%60);  break;
 		case 1:
-			sprintf(a,"Inactive after: %d min", par.minInactive);  break;
+			// sprintf(a,"Inactive after: %d min", par.minInactive);break;
 		}
-		d->print(a);  y += h+8;
+		d->print(a);*/  y += h+8;
 	}	break;
 
 	case Di_Graph:
@@ -105,18 +101,16 @@ void Gui::DrawDisplay()
 		int8_t h = 4;
 		switch(i)
 		{
-		case 0:
-			sprintf(a,"Ram info: %d", iRam);  h = 2;  break;
 		case 1:
-			sprintf(a,"Frames per sec: %d", demos.iFps);  break;
+			// sprintf(a,"Frames per sec: %d", demos.iFps);  break;
 		case 2:
 			sprintf(a,"Temp offset: ");  break;
 		}
 		d->print(a);  y += h+8;
 		if (i==2)
 		{
-			dtostrf(0.03f * par.tempOfs, 4,2, a);
-			d->print(a);  d->print(" ""\x01""C");
+			// dtostrf(0.03f * par.tempOfs, 4,2, a);
+			// d->print(a);  d->print(" ""\x01""C");
 		}
 	}	break;
 	}

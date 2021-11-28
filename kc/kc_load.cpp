@@ -53,19 +53,12 @@ void KC_Main::Load()
 	err = E_ok;
 	//set.Clear();
 
-	int a = EOfs, i, n;  uint8_t b;
+	int a = EOfs, n;  uint8_t b;
 	//  header
-	set.h1 = Erd(a);  if (set.h1 != 'k') {  err=E_H1;  return;  }
-	set.h2 = Erd(a);  if (set.h2 != 'c') {  err=E_H2;  return;  }
-	set.ver = Erd(a);  if (set.ver > 9) {  err=E_ver;  return;  }
-
-	//  matrix
-	set.rows = Erd(a);  if (set.rows > KC_MaxRows) {  err=E_rows;  return;  }
-	set.cols = Erd(a);  if (set.cols > KC_MaxCols) {  err=E_cols;  return;  }
-	set.scanKeys = set.rows * set.cols;
-	set.seqSlots = Erd(a);  // now less than in ee
-	if (set.seqSlots > KC_MaxSeqs) {  err=E_slots;  set.seqSlots = KC_MaxSeqs;  }
-
+	char h1 = 'k', h2 = 'c', ver = 6;
+	h1 = Erd(a);  if (h1 != 'k') {  err=E_H1;  return;  }
+	h2 = Erd(a);  if (h2 != 'c') {  err=E_H2;  return;  }
+	ver = Erd(a);  if (ver > 9) {  err=E_ver;  return;  }
 
 	//  params  ----
 	ParInit();  // defaults
@@ -86,24 +79,12 @@ void KC_Main::Load()
 void KC_Main::Save()
 {
 	err = E_ok;
-	//  sth very wrong
-	if (set.rows * set.cols != set.scanKeys)
-	{	err=E_rcEq;  return;  }
 
-	#ifndef CK1
-	if (set.nkeys() != int(set.scanKeys))
-	{	err=E_nkeys;  return;  }
-	#endif
-
-	int a = EOfs, i, n;
+	int a = EOfs, n;
 
 	//  header
-	set.h1 = 'k';  set.h2 = 'c';  set.ver = 3;  // cur
-	Ewr(a, set.h1);  Ewr(a, set.h2);  Ewr(a, set.ver);
-
-	//  matrix
-	Ewr(a, set.rows);  Ewr(a, set.cols);  Ewr(a, set.seqSlots);
-
+	char h1 = 'k', h2 = 'c', ver = 6;
+	Ewr(a, h1);  Ewr(a, h2);  Ewr(a, ver);
 
 	//  params  ----
 	++par.verCounter;  // inc ver

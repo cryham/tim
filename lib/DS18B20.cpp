@@ -7,8 +7,8 @@ void __check(bool value, uint16_t line)
   if (value)
     return;
 
-  Serial.print(F("EXCEPTION at line: "));
-  Serial.println(line);
+  // Serial.print(F("EXCEPTION at line: "));
+  // Serial.println(line);
   while(1);
 }
 

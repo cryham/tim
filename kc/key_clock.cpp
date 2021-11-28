@@ -15,6 +15,7 @@ void Gui::KeysClock()
 	{	pgClock = RangeAdd(pgClock, kPgUp, 0, Cl_All-1, 1);
 		ym2Clock = RangeAdd(ym2Clock, 0, 0, ClockVars(pgClock), 1);
 	}
+	#if 0
 	else
 	//  adjust time  ---
 	if (kRight && pgClock == Cl_Adjust)
@@ -61,12 +62,6 @@ void Gui::KeysClock()
 		if (a)
 			par.xCur = RangeAdd(par.xCur, a, 0, W-1, 1);
 	}
-
-	if (kAdd || kBckSp)  --mlevel;
-
-	if (pgClock == Cl_Adjust || pgClock == Cl_Graphs)
-	{
-		if (kSave)  Save();
-		if (kLoad)  Load(kCtrl);
-	}
+	#endif
+	if (kBack)  --mlevel;
 }

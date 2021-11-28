@@ -1,6 +1,7 @@
 #include "gui.h"
 #include "Ada4_ST7735.h"
 #include "kc_data.h"
+#include "math.h"
 
 
 //  Grid  | |
@@ -147,7 +148,7 @@ void Gui::DrawGraph()
 
 		float f = xc == W-1 ? fTemp : // latest
 			TempBtoF(v);
-		dtostrf(f,4,2,a);  d->println(a);
+		// dtostrf(f,4,2,a);  d->println(a);
 
 		d->moveCursor(0,1);
 		PrintInterval(tTgraph(par)*(W-1-xc));  d->println("");

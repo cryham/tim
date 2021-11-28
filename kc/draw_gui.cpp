@@ -12,11 +12,8 @@ void Gui::Draw()
 	//  Clear
 	d->clear();
 
-	if (!demo)
-	{
-		d->setFont(&FreeSans9pt7b);
-		d->setCursor(0,0);
-	}
+	d->setFont(&FreeSans9pt7b);
+	d->setCursor(0,0);
 
 
 	//  Main menu

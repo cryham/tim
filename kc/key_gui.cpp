@@ -1,78 +1,31 @@
 #include "gui.h"
 #include "matrix.h"
-#include "kbd_layout.h"
-#include "keys_usb.h"
+// #include "kbd_layout.h"
 #include "kc_params.h"
 #include "kc_data.h"
 #include "periodic.h"
+#include "core_pins.h"
+
 
 
 //  Key press
 //....................................................................................
 void Gui::KeyPress()
 {
-	if (Key(par.keyGui))  // toggle Gui **
-	{	kbdSend = 1 - kbdSend;  kc.QuitSeq();
-		kc.setDac = 1;  }
-
-	if (kbdSend)
-		return;
-
 	uint32_t ti = millis();
 	uint16_t dt = ti - oldti_kr;
 	oldti_kr = ti;
 
 	//  update keys press  _k_
-	kRight= kr(gRight,dt) - kr(gLeft,dt);
-	kUp   = kr(gDown,dt) - kr(gUp,dt);  kDnH = KeyH(gDown);
-	kPgUp = kr(gPgDn,dt) - kr(gPgUp,dt);
-	kEnd  = kr(gEnd,dt) - kr(gHome,dt);
+	kRight= kr(1,dt) - kr(2,dt);
+	kUp   = kr(3,dt) - kr(4,dt);
+	kPgUp = kr(5,dt) - kr(6,dt);
+	kEnd  = kr(7,dt) - kr(8,dt);
 
-	kAdd = Key(gAdd);  kEnt = Key(gEnt);  kEnt2 = Key(gEnt2);
-	kCtrl = KeyH(gCtrl); kSh  = KeyH(gSh);  kEsc = Key(gEsc);
-	kMul  = Key(gMul);  kSub = Key(gSub);  kDiv = Key(gDiv);
-	//  edit seq
-	kIns = Key(gIns);   kDel = kr(gDel,dt);  kBckSp = kr(gBckSp,dt);
-	kCopy = Key(gC);  kPaste = Key(gV);  kSwap = Key(gX);
-	kLoad = Key(gLoad);  kSave = Key(gSave);
-
-	kF1=Key(gF1); kF2=Key(gF2); kF3=Key(gF3); kF6=Key(gF6); kF7=Key(gF7);
-	kF8=Key(gF8); kF9=Key(gF9); kF10=Key(gF10); kF11=Key(gF11); kF12=Key(gF12);
+	//kEnt = Key(gEnt);  kSave = Key(gSave);
 
 
-	//  quick access keys  * * *
-	//  -----
-	if (par.quickKeys && !(pressGui || pressKey ||
-		(edit && mlevel == 1 && ym == M_Sequences) ||
-		(mlevel == 2 && ym == M_Testing)))
-	{
-		if (kEsc)  SetScreen(ST_Main0);
-		if (kF1)  SetScreen(ST_Map);
-		if (kF2)  SetScreen(ST_Seqs);
-		if (kF3)  SetScreen(ST_Test2 + (kSh ? T_Pressed : T_Layout));
-		//  F4 save  F5 load
-		if (kF6)  SetScreen(ST_Info2 + I_Use);
-		if (kF7)  SetScreen(ST_Setup2 + S_Mouse);
-		if (kF8)  SetScreen(ST_Setup2 + (kSh ? S_Keyboard : S_Layer));
-
-		if (kF9)   SetScreen(ST_Demos2 +
-			(kCtrl ? (kSh ? D_Rain : D_CK_Logo) :
-					 (kSh ? D_Hedrons : D_Plasma)));
-		if (kF10)  SetScreen(ST_Help);
-
-		if (kF11)
-		{	bool clk = ym == M_Clock;
-			SetScreen(ST_Displ);
-			// set page for clock
-			if (clk)
-			{	if (pgClock == Cl_Graphs)  pgDisp = Di_Graph;  else
-				if (pgClock >= Cl_Stats)  pgDisp = Di_Stats;  }
-		}
-		if (kF12)  SetScreen(ST_Clock +
-			(kCtrl ? Cl_Graphs : kSh ? Cl_StatsExt : pgClock));
-	}
-
-	int sp = (kCtrl ? 10 : kSh ? 1 : 2);  // mul
+	int sp = 2;  // mul
 
 
 	//  Setup
@@ -100,29 +53,16 @@ void Gui::KeyPress()
 	}
 
 
-	//  Mapping kbd
-	if (ym == M_Mapping && mlevel == 1)
-	{
-		KeysMap();  return;
-	}
-
-	//  Sequences
-	if (ym == M_Sequences && mlevel == 1)
-	{
-		KeysSeq();  return;
-	}
-
-
 	if (mlevel == 0)  //  main menu
 	{
 		if (kUp){  ym += kUp;  if (ym >= M_All)  ym = 0;  if (ym < 0)  ym = M_All-1;  }
-		if (kRight > 0 || kEnt2)  mlevel = 1;  // enter>
+		 if (kRight > 0 || kEnt)  mlevel = 1;  // enter>
 		return;
 	}
 
 
-	//  Add+  <back global
-	if ((kAdd || kBckSp) && mlevel > 0)  --mlevel;
+	//  back global
+	if (kBack && mlevel > 0)  --mlevel;
 
 
 	//  Help
@@ -130,7 +70,7 @@ void Gui::KeyPress()
 	{
 		if (kUp || kPgUp)
 			hpage = RangeAdd(hpage, kUp+kPgUp, 0,HAll-1, 1);
-		if (kRight < 0 || kAdd || kBckSp)
+		if (kRight < 0 || kBack)
 			mlevel = 0;  // <back
 		return;
 	}
@@ -140,7 +80,7 @@ void Gui::KeyPress()
 	{
 		//  navigate
 		if (kRight < 0)  mlevel = 0;  // <back
-		if (kRight > 0 || kEnt2)
+		if (kRight > 0 || kEnt)
 			if (ym != M_Display)  mlevel = 2;  // enter>
 
 		if (kUp){  ym1[ym] += kUp;  Chk_y1();  }

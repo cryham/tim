@@ -1,61 +1,26 @@
-#include "WProgram.h"
-
 #include "matrix.h"
 #include "periodic.h"
 #include "kc_data.h"
-
-#include "Ada4_ST7735.h"
 #include "gui.h"
 
+#include "Ada4_ST7735.h"
+#include "WProgram.h"
 
-//  scan counter, freq
-uint scan_cnt = 0, scan_freq = 0;
-uint32_t us_scan = 0, ms_scan = 0;
-uint8_t scan_n = 0;
 
 Gui gui;
 KC_Main kc;
 extern void ParInit();
 
 
-//  kbd  timer event,  scan, send
+//  kbd timer
 //------------------------------------------------
 void main_periodic()
 {
-	uint32_t us = micros();
+	Matrix_scan(0);
 
-	//  freq info
-	uint32_t ms = millis(),
-		ms_diff = ms - ms_scan;
-	if (ms_diff >= 1000)  // 1s
-	{
-		ms_scan = ms;
-		scan_freq = scan_cnt;  // Hz
-		scan_cnt = 0;
-	}
-	++scan_cnt;
-	++scan_n;
+	gui.KeyPress();
 
-
-	//  kbd scan
-	bool bsc = false;
-	if (gui.kbdSend ||  // slower for demos
-		gui.ym != M_Demos || scan_n % 4==0)
-	{	Matrix_scan(0);  bsc = true;  }  // K
-
-
-	//  gui keys
-	if (bsc)
-		gui.KeyPress();
-
-
-	//  keyboard send
-	kc.UpdLay(ms);
-
-	if (gui.kbdSend)
-		kc.Send(ms);
-
-	us_scan = micros() - us;
+	kc.UpdLay(1);
 }
 
 
@@ -67,7 +32,7 @@ int main()
 
 	//  dac for tft led
 	analogWriteRes(12);
-	analogWriteDAC0(0);  // dark
+	analogWriteDAC0(1200);  // dark
 
 
 	Ada4_ST7735 tft;
@@ -80,15 +45,9 @@ int main()
 
 	//  load set from ee
 	kc.Load();
-	gui.SetScreen(par.startScreen);
-	gui.kbdSend = 1;  // release
-
-#ifdef CKa
-	gui.kbdSend = 0;  // release
-	gui.SetScreen(ST_Test2+T_Matrix);
+	//gui.SetScreen(ST_Main0);
+	gui.SetScreen(ST_Clock + Cl_StatsExt);
 	par.brightness = 100;
-	par.brightOff = 90;
-#endif
 
 
 	//  kbd

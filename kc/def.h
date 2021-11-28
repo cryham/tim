@@ -1,5 +1,11 @@
 #pragma once
 #include <stdint.h>
+#include <stdio.h>
+// #include "wiring.h"
+// #ifndef min
+// #define min(a,b) ((a)<(b)?(a):(b))
+// #define max(a,b) ((a)>(b)?(a):(b))
+// #endif
 
 //----  Setup  ----	  use:  ram B      flash
 //  optional features, comment out to disable
@@ -23,6 +29,7 @@
 class Ada4_ST7735;
 #endif
 
+typedef unsigned int uint;
 
 enum EMainMenu  //  main menu entries, level0
 {

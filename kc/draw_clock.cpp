@@ -2,6 +2,8 @@
 #include "Ada4_ST7735.h"
 #include "matrix.h"
 #include "kc_data.h"
+#include "avr_functions.h"
+#include "core_pins.h"
 
 
 //  const
@@ -49,7 +51,7 @@ int DayOfWeek(int d, int m, int y)
 void Gui::DrawClockCur(int i, int16_t y)
 {
 	d->setCursor(2, y);
-	int c = abs(i - ym2Clock);  // dist dim
+	int c = 0; //abs(i - ym2Clock);  // dist dim
 	if (!c)
 	{	d->fillRect(0, y-1, W/2, 10, RGB(4,7,10));
 		d->setClr(21,26,31);
@@ -61,19 +63,6 @@ void Gui::DrawClockCur(int i, int16_t y)
 }
 
 //  color from value
-void Gui::ClrPress(int pm)
-{
-	if (pm >200)  d->setClr(31, 25,31);  else
-	if (pm >150)  d->setClr(31, 20,25);  else
-	if (pm >120)  d->setClr(31, 10,10);  else
-
-	if (pm > 90)  d->setClr(31, 16, 2);  else
-	if (pm > 70)  d->setClr(31, 20, 2);  else
-	if (pm > 50)  d->setClr(24, 24, 4);  else
-	if (pm > 30)  d->setClr( 6, 24, 6);  else
-	if (pm > 10)  d->setClr( 4, 22,22);  else
-				  d->setClr( 6, 16,24);
-}
 void Gui::ClrTemp(int tm)
 {
 	if (tm >224)  d->setClr(31, 10,10);  else
@@ -132,7 +121,8 @@ void Gui::DrawClock()
 		v = kc.grPMin[ii % W];
 		if (v > 0)
 		{
-			ClrPress(v);  uint16_t c = d->getClr();
+			// ClrPress(v);
+			uint16_t c = d->getClr();
 			y0 = yt - v / 3;  // 96 is max  //par scale-
 			if (y0 < 0)  y0 = 0;
 			d->drawPixel(i,y0, c);
