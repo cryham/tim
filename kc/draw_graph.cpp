@@ -2,6 +2,7 @@
 #include "Ada4_ST7735.h"
 #include "kc_data.h"
 #include "math.h"
+#include "WProgram.h"
 
 
 //  Grid  | |
@@ -37,6 +38,7 @@ float Gui::TempBtoF(uint8_t b)
 void Gui::DrawGraph()
 {
 #ifdef GRAPHS
+#ifdef TEMP1
 
 	#define getPv(i)  ii = kc.grPpos + i - (W-1) + W;  v = kc.grPMin[ii % W];
 	#define getTv(i)  ii =    grTpos + i - (W-1) + W;  v =    grTemp[ii % W];
@@ -48,7 +50,6 @@ void Gui::DrawGraph()
 	int i,ii, x,y0, v,y,h;  uint16_t c;
 
 
-#ifdef TEMP1
 	// Temp'C  ------------------------------------
 
 	//  auto range  get min,max
@@ -148,7 +149,7 @@ void Gui::DrawGraph()
 
 		float f = xc == W-1 ? fTemp : // latest
 			TempBtoF(v);
-		// dtostrf(f,4,2,a);  d->println(a);
+		dtostrf(f,4,2,a);  d->println(a);
 
 		d->moveCursor(0,1);
 		PrintInterval(tTgraph(par)*(W-1-xc));  d->println("");
@@ -163,6 +164,5 @@ void Gui::DrawGraph()
 	if (!cursor)  d->print("min ");
 	sprintf(a,"%d", grFmin);  d->println(a);
 #endif
-
 #endif
 }

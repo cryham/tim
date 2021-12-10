@@ -36,7 +36,7 @@ int main()
 	//analogWriteDAC0(1200);
 #ifdef LCD_LED
 	pinMode(LCD_LED, OUTPUT);
-	analogWrite(LCD_LED, 0 ? 4095 : 3200);
+	analogWrite(LCD_LED, 1200);
 #endif
 
 
@@ -48,12 +48,10 @@ int main()
 	tft.display();  // black
 
 
-	//  load set from ee
-	kc.Load();
-	//gui.SetScreen(ST_Main0);
+	//  load set from eeprom
+	kc.Load();  //..
+	// gui.SetScreen(ST_Main0);
 	//gui.SetScreen(ST_Clock + Cl_StatsExt);
-	gui.SetScreen(ST_Test2 + T_Matrix);
-	par.brightness = 100;
 
 
 	//  kbd

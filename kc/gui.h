@@ -15,12 +15,12 @@ struct Gui
 
 
 	//  draw menus
-	void DrawTesting(), DrawSetup(), DrawDisplay();  // set params
-	void DrawClock(), DrawGraph(), DrawHelp(), DrawInfo();  // info
+	void DrawTesting(), DrawDisplay();  // set params
+	void DrawClock(), DrawGraph();
+	void DrawHelp();
 
 	//  draw util
-	void Chk_y1();
-	// void DrawOperInfo();
+	void DrawOperInfo(), Chk_y1();
 	void DrawDispCur(int i, int16_t y), DrawClockCur(int i, int16_t y);
 	//  util
 	void ClrTemp(int temp);
@@ -29,8 +29,8 @@ struct Gui
 
 
 	//  keys
-	void KeysParSetup(int sp), KeysParDisplay(int sp);
-	void KeysParInfo(int sp), KeysClock();
+	void KeysParDisplay(int sp);
+	void KeysClock();
 
 	//  start
 	void SetScreen(int8_t start);
@@ -76,7 +76,7 @@ struct Gui
 	int8_t ym2Clock = 0, pgClock = Cl_StatsExt;  // Clock
 
 	const static uint8_t
-		DispPages[Di_All], ScanPages[S_All]; //, InfoPages[I_All];
+		DispPages[Di_All];
 
 	inline static uint8_t ClockVars(int pg)
 	{	return pg == Cl_Adjust ? 6 : 0;  }

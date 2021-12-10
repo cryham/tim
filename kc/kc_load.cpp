@@ -17,7 +17,7 @@ void ParInit()
 	par.strobe_delay = 4;
 	par.scanFreq = 50;  // 1 kHz
 
-	par.brightness = 80;
+	par.brightness = 60;
 	par.startScreen = 0;
 
 	par.verCounter = 0;
@@ -53,12 +53,12 @@ void KC_Main::Load()
 	err = E_ok;
 	//set.Clear();
 
-	int a = EOfs, n;  uint8_t b;
+	int a = EOfs, n;  //uint8_t b;
 	//  header
-	char h1 = 'k', h2 = 'c', ver = 6;
-	h1 = Erd(a);  if (h1 != 'k') {  err=E_H1;  return;  }
-	h2 = Erd(a);  if (h2 != 'c') {  err=E_H2;  return;  }
-	ver = Erd(a);  if (ver > 9) {  err=E_ver;  return;  }
+	char h1 = 't', h2 = 'i', ver = 6;
+	h1 = Erd(a);  if (h1 != 't') {  err=E_H1;  return;  }
+	h2 = Erd(a);  if (h2 != 'i') {  err=E_H2;  return;  }
+	ver = Erd(a);  if (ver > 1) {  err=E_ver;  return;  }
 
 	//  params  ----
 	ParInit();  // defaults
@@ -83,7 +83,7 @@ void KC_Main::Save()
 	int a = EOfs, n;
 
 	//  header
-	char h1 = 'k', h2 = 'c', ver = 6;
+	char h1 = 't', h2 = 'i', ver = 1;
 	Ewr(a, h1);  Ewr(a, h2);  Ewr(a, ver);
 
 	//  params  ----

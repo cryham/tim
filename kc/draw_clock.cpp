@@ -4,6 +4,7 @@
 #include "kc_data.h"
 #include "avr_functions.h"
 #include "core_pins.h"
+#include "WProgram.h"
 
 
 //  const
@@ -51,7 +52,7 @@ int DayOfWeek(int d, int m, int y)
 void Gui::DrawClockCur(int i, int16_t y)
 {
 	d->setCursor(2, y);
-	int c = 0; //abs(i - ym2Clock);  // dist dim
+	int c = abs(i - ym2Clock);  // dist dim
 	if (!c)
 	{	d->fillRect(0, y-1, W/2, 10, RGB(4,7,10));
 		d->setClr(21,26,31);

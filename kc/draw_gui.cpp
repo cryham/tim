@@ -17,7 +17,6 @@ void Gui::Draw()
 
 
 	//  Main menu
-	//------------------------------------------------------
 	if (mlevel==0)
 	{
 		d->setClr(6,19,31);
@@ -31,13 +30,7 @@ void Gui::Draw()
 
 	switch (ym)
 	{
-
-	//  Testing,Setup  kbd
-	case M_Testing:   DrawTesting();  return;
-	case M_Setup:     DrawSetup();  return;
-	case M_Info:      DrawInfo();  return;
-
-	//  Display, Help
+	case M_Testing: DrawTesting();  return;
 	case M_Display: DrawDisplay();  return;
 	case M_Clock:   DrawClock();  return;
 	case M_Help:    DrawHelp();  return;

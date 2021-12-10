@@ -35,26 +35,9 @@ const uint8_t Gui::Mclr[Gui::C_ALL][2][3] =
 //  Main Menu
 const char* strMain[M_All] =
 {
-	"Mapping", "Sequences",
-	"Testing", "Setup", "Info",
-	"Display", "Clock", "Help",
+	"Clock", "Display", "Testing", "Help",
 };
 
-//  Testing kbd
-const char* strTest[T_All] =
-{
-	"Layout", "Pressed", "Matrix #",
-};
-//  Setup kbd
-const char* strSetup[S_All] =
-{
-	"Layer", "Keyboard", "Mouse", "Scan #",
-};
-//  Info use, ver
-const char* strInfo[I_All] =
-{
-	"Use", "Version",
-};
 //  Clock pages
 const char* strClock[Cl_All] =
 {
@@ -68,12 +51,8 @@ const char* strClock[Cl_All] =
 //  sub pages
 const uint8_t YM1[M_All] =
 {
-	4,  // M_Mapping
-	1,  // M_Sequences
-	T_All,  // M_Testing
-	S_All,  // M_Setup
-	I_All,  // M_Info
-	1,  // M_Display
 	1,  // M_Clock  Cl_All
+	1,  // M_Display
+	1,  // M_Testing
 	1,  // M_Help
 };

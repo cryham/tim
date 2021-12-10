@@ -14,8 +14,8 @@ void KC_Main::UpdLay(uint32_t ms)
 	if (setDac)
 	{	setDac = 0;
 		int bri = par.brightness;
-		const int minBri = 3580;
-		int val = bri == 0 ? 0 : bri * (4095 - minBri) / 100 + minBri;
-		analogWriteDAC0(val);
+		const int minBri = 10;
+		int val = bri == 0 ? minBri : bri * (4095 - minBri) / 100 + minBri;
+		analogWrite(LCD_LED, val);
 	}
 }

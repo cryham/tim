@@ -1,11 +1,9 @@
 #include "gui.h"
 #include "matrix.h"
-// #include "kbd_layout.h"
 #include "kc_params.h"
 #include "kc_data.h"
 #include "periodic.h"
 #include "core_pins.h"
-
 
 
 //  Key press
@@ -17,28 +15,30 @@ void Gui::KeyPress()
 	oldti_kr = ti;
 
 	//  update keys press  _k_
-	kRight= kr(1,dt) - kr(2,dt);
-	kUp   = kr(3,dt) - kr(4,dt);
-	kPgUp = kr(5,dt) - kr(6,dt);
-	kEnd  = kr(7,dt) - kr(8,dt);
+	// kRight= kr(1,dt) - kr(2,dt);
+	kUp   = kr(5,dt) - kr(4,dt);
+	// kPgUp = kr(5,dt) - kr(6,dt);
+	// kEnd  = kr(7,dt) - kr(8,dt);
 
-	//kEnt = Key(gEnt);  kSave = Key(gSave);
+	kEnt = Key(3);
+	kBack = Key(2);
 
+
+	//  rot enc  (*)  scroll
+	auto& kk = mlevel == 0 ? kUp : kRight;
+
+	static int8_t old = KeyH(1);
+	int8_t scr = KeyH(1);
+	if (scr && !old)
+		kk = KeyH(0) > 0 ? -1 : 1;
+	else
+		kk = 0; //Key(0);
+	old = scr;/**/
+
+	int d = kUp + kRight;
 
 	int sp = 2;  // mul
 
-
-	//  Setup
-	if (ym == M_Setup && mlevel == 2)
-	{
-		KeysParSetup(sp);
-	}
-
-	//  Info
-	if (ym == M_Info && mlevel == 2)
-	{
-		KeysParInfo(sp);
-	}
 
 	//  Display
 	if (ym == M_Display && mlevel == 1)
@@ -53,37 +53,45 @@ void Gui::KeyPress()
 	}
 
 
-	if (mlevel == 0)  //  main menu
+	//  main menu
+	if (mlevel == 0)
 	{
-		if (kUp){  ym += kUp;  if (ym >= M_All)  ym = 0;  if (ym < 0)  ym = M_All-1;  }
-		 if (kRight > 0 || kEnt)  mlevel = 1;  // enter>
+		if (d)
+		{	ym += d;
+			if (ym >= M_All)  ym = 0;
+			if (ym < 0)  ym = M_All-1;
+		}
+		if (kEnt > 0)
+			mlevel = 1;  // enter>
 		return;
 	}
 
 
-	//  back global
-	if (kBack && mlevel > 0)  --mlevel;
+	//  <back  global
+	if (kBack && mlevel > 0)
+		--mlevel;
 
 
-	//  Help
+	//  Help  ---
 	if (ym == M_Help && mlevel == 1)
 	{
-		if (kUp || kPgUp)
-			hpage = RangeAdd(hpage, kUp+kPgUp, 0,HAll-1, 1);
-		if (kRight < 0 || kBack)
-			mlevel = 0;  // <back
+		if (d)
+			hpage = RangeAdd(hpage, d, 0,HAll-1, 1);
 		return;
 	}
 
 
-	if (mlevel == 1)  //  sub menu
+	//  sub menu
+	if (mlevel == 1)
 	{
-		//  navigate
-		if (kRight < 0)  mlevel = 0;  // <back
-		if (kRight > 0 || kEnt)
-			if (ym != M_Display)  mlevel = 2;  // enter>
+		auto No2nd = [&](){  return  // no 2nd level
+			ym == M_Display;  };
 
-		if (kUp){  ym1[ym] += kUp;  Chk_y1();  }
+		if (kEnt > 0 && !No2nd())  // enter>
+			mlevel = 2;
+
+		if (d)
+		{	ym1[ym] += d;  Chk_y1();  }
 		return;
 	}
 }

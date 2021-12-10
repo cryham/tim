@@ -44,20 +44,11 @@ struct KC_Params
 enum EStartScr  //  start screen
 {	ST_Main0 = 0,
 	ST_Test,
-	ST_Test2, ST_Test2Max = ST_Test2 +T_All,
-	ST_Map = ST_Test2Max,
-	ST_Seqs,
 	ST_Displ,
 	ST_Clock, ST_ClockMax = ST_Clock +Cl_All,
 	ST_Help = ST_ClockMax,
-	ST_Setup,
-	ST_Info, ST_Info2, ST_Info2Max = ST_Info2 +I_All,
-	ST_Setup2 = ST_Info2Max, ST_Setup2Max = ST_Setup2 +S_All,
-	ST_Demos = ST_Setup2Max,
-	ST_Demos2,  ST_ALL = ST_Demos2 //=ST_Demos2Max
-	#ifdef DEMOS
-		+D_All,
-	#endif
+	ST_Info,
+	ST_ALL = ST_Info
 };
 
 #ifdef __cplusplus

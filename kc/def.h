@@ -1,11 +1,6 @@
 #pragma once
 #include <stdint.h>
 #include <stdio.h>
-// #include "wiring.h"
-// #ifndef min
-// #define min(a,b) ((a)<(b)?(a):(b))
-// #define max(a,b) ((a)>(b)?(a):(b))
-// #endif
 
 //----  Setup  ----	  use:  ram B      flash
 //  optional features, comment out to disable
@@ -31,37 +26,20 @@ class Ada4_ST7735;
 
 typedef unsigned int uint;
 
-enum EMainMenu  //  main menu entries, level0
+
+//  main menu entries, level0
+enum EMainMenu
 {
-	M_Mapping, M_Sequences,
-	M_Testing, M_Setup, M_Info,
-	M_Display, M_Clock, M_Help,
-	M_All,  M_Next = M_Display  // 2nd column, -1 off
-};
-
-
-
-//  menus  --
-enum ETesting  //  Testing kbd, level1
-{
-	T_Layout, T_Pressed, T_Matrix, T_All
-};
-
-enum ESetup  //  Setup kbd, level1
-{
-	S_Layer, S_Keyboard, S_Mouse, S_Scan, S_All
-};
-
-enum EInfo  //  Info use,ver
-{
-	I_Use, I_Version, I_All
+	M_Clock, M_Display, M_Testing, M_Help,
+	M_All,  M_Next = -1  //M_Display  // 2nd column, -1 off
 };
 
 //  pages  --
 enum EDisplay
 {
-	Di_Bright, Di_Key, Di_Stats, Di_Graph, Di_Debug, Di_All
+	Di_Bright, Di_Config, Di_Key, Di_Graph, Di_Debug, Di_All
 };
+
 enum EClock
 {
 	Cl_Adjust, Cl_Simple,
@@ -74,8 +52,7 @@ enum EClock
 
 //  string names for all above ^
 extern const char
-	*strMain[M_All], *strTest[T_All], *strSetup[S_All],
-	*strInfo[I_All], *strClock[Cl_All];
+	*strMain[M_All], *strClock[Cl_All];
 
 //  sub page counts, inside each main menu entry
 extern const uint8_t YM1[M_All];
@@ -83,4 +60,3 @@ extern const uint8_t YM1[M_All];
 //  time intervals  *0.1s
 extern const uint16_t gIntervals[];
 const static uint8_t gIntvMask = 0x1F;
-
