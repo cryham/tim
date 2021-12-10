@@ -80,16 +80,9 @@ typedef struct GPIO_Pin {
 
 
 //  ----***  Matrix  ***----
-#if defined(CK6)   //  18 x 8  CK6 or CK7
-	const static GPIO_Pin
-	Matrix_cols[] = {
-		gpio(B,16), gpio(B,17), gpio(D,0), gpio(A,12), gpio(A,13), gpio(D,7), gpio(D,4), gpio(D,2), gpio(D,3),
-		gpio(C,2), gpio(C,1), gpio(D,6), gpio(D,5), gpio(B,2), gpio(B,3), gpio(B,1), gpio(B,0), gpio(C,0)  },
-	Matrix_rows[] = {
-		gpio(C,10), gpio(C,11), gpio(B,18), gpio(A,4), gpio(A,5), gpio(B,19), gpio(C,9), gpio(C,8) };
-#else
-	#error "No keyboard defined! Put e.g. #define CK1 in def.h"
-#endif
+const static GPIO_Pin
+	Matrix_cols[] = { T3_0, },
+	Matrix_rows[] = { T3_1, T3_2, T3_3, T3_4, T3_5, T3_6, };
 
 #define NumCols  sizeof( Matrix_cols ) / sizeof( GPIO_Pin )
 #define NumRows  sizeof( Matrix_rows ) / sizeof( GPIO_Pin )

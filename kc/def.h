@@ -11,10 +11,10 @@
 //  optional features, comment out to disable
 #define GRAPHS          //  322 <1%
 
-#define CK6  // 18x8  new CK6/3
-
 //  temperature 'C sensor DS18B20
-#define TEMP1  31	//  44   9%  24k
+//#define TEMP1  31	 //  44   9%  24k
+
+#define LCD_LED  32  //  PWM LCD brightness
 //-----------------
 
 

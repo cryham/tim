@@ -32,7 +32,12 @@ int main()
 
 	//  dac for tft led
 	analogWriteRes(12);
-	analogWriteDAC0(1200);  // dark
+	analogWriteResolution(12);
+	//analogWriteDAC0(1200);
+#ifdef LCD_LED
+	pinMode(LCD_LED, OUTPUT);
+	analogWrite(LCD_LED, 0 ? 4095 : 3200);
+#endif
 
 
 	Ada4_ST7735 tft;
@@ -46,7 +51,8 @@ int main()
 	//  load set from ee
 	kc.Load();
 	//gui.SetScreen(ST_Main0);
-	gui.SetScreen(ST_Clock + Cl_StatsExt);
+	//gui.SetScreen(ST_Clock + Cl_StatsExt);
+	gui.SetScreen(ST_Test2 + T_Matrix);
 	par.brightness = 100;
 
 
